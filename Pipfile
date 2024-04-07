@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+jupyter = "*"
+matplotlib = "*"
+numpy = "*"
+scikit-learn = "*"
+bert-score = "*"
+transformers = "*"
+tqdm = "*"
+keras = "*"
+pydot = "*"
+tensorflow-text = "~=2.14"
+einops = "*"
+tensorflow = {extras = ["and-cuda"], version = "~=2.16"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+python_full_version = "3.10.12"
