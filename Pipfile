@@ -16,6 +16,7 @@ pydot = "*"
 tensorflow-text = "~=2.14"
 einops = "*"
 tensorflow = {extras = ["and-cuda"], version = "~=2.16"}
+nltk = "*"
 
 [dev-packages]
 
