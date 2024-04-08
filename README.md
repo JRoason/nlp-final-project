@@ -29,43 +29,62 @@ The training data for this project is not present in this repository (size const
 The files in the repository expect the training data to be in the `data` directory. The training data should be split into two files: `europarl-v7-en-train.txt` for the English sentences and `europarl-v7-it-train.txt` for the corresponding Italian translations.
 The test data should be in the `data` directory as well, with the files `europarl-v7-en-test.txt` and `europarl-v7-it-test.txt`.
 
-To split the data into training and testing data, assuming the data is in your working directory, run the following commands:
+To split the data into training and testing data, assuming the data is in the root directory of the this repository, run the following commands:
 
-```python
-from sklearn.model_selection import train_test_split
-
-# Load English-Italian Europarl dataset
-with open('europarl-v7-it.txt') as italian_file, open('europarl-v7-en.txt') as english_file:
-    italian_sentences = italian_file.readlines()
-    english_sentences = english_file.readlines()
-
-X_en_train, X_en_test, X_it_train, X_it_test = train_test_split(english_sentences, italian_sentences, test_size=0.2)
-
-with open('europarl-v7-it-train.txt', 'w') as italian_file:
-    italian_file.writelines(X_it_train)
-
-with open('europarl-v7-en-train.txt', 'w') as english_file:
-    english_file.writelines(X_en_train)
-
-with open('europarl-v7-it-test.txt', 'w') as italian_file:
-    italian_file.writelines(X_it_test)
-
-with open('europarl-v7-en-test.txt', 'w') as english_file:
-    english_file.writelines(X_en_test)
+```bash
+python dataset.py
 ```
 
-Note that this assumes your files are named `europarl-v7-it.txt` and `europarl-v7-en.txt`. If they are named differently, change the file names in the code above.
+Note that this file assumes your files are named `europarl-v7-it.txt` and `europarl-v7-en.txt`. If they are named differently, change the file names in the code above.
 
 The file `preprocess_data.py` contains two functions for loading and preprocessing the data and preparing it for training the NMT system. These functions strip whitespace, remove punctuation, and add start and end tokens to the Italian sentence, for use with the decoder.
 
 Note that the half the training data is used due to the size of the corpus. This can be changed, and ought to be to produce a better model.
 
-Additionally, only the first 5000 sentences of the test data are used for evaluation. This should also be changed, but evaluation takes a long time.
+Additionally, only the first 5000 sentences of the test data are used for evaluation. This can also be changed, but evaluation takes a long time.
+
+## Model
+
+Due to size constraints, the weights of the trained models are not included in this repository. Therefore, the models need to be trained from scratch using the training script. The weights are saved in the `data` directory after training. The main model's architecture is defined in the `model.py` file, while the baseline model's architecture is defined in `baseline_model.py`.
 
 ## Training
 
 During training, the `dataset.py` file used the Tensorflow `tf.data.Dataset` API to create a dataset pipeline for training the model. The dataset pipeline reads the training data from the files, preprocesses it, and batches it for training the model. The dataset pipeline is used in the `model_training.py` script to train the NMT system.
 
-## Model
+To train the LSTM with attention model, run the following command:
 
-Due to size constraints, the weights of the trained models are not included in this repository. Therefore, the models need to be trained from scratch using the training script. The weights are saved in the `data` directory after training. The main model's architecture is defined in the `model.py` file, while the baseline model's architecture is defined in `baseline_model.py`.
+```bash
+python model_training.py
+```
+
+To train the baseline model, run the following command:
+
+```bash
+python baseline_training.py
+```
+
+## Prediction
+
+To generate translations from the trained model, run the following command:
+
+```bash
+python model_prediction.py
+```
+
+To generate translations from the baseline model, run the following command:
+
+```bash
+python baseline_prediction.py
+```
+
+The predictions are saved in the `data` directory as `predictions.txt` and `baseline_predictions.txt`.
+
+## Evaluation
+
+To evaluate the models using BLEU, METEOR and BERT scores, run the following command:
+
+```bash
+python evaluation.py
+```
+
+The output will be printed to the console.

@@ -84,10 +84,10 @@ if __name__ == '__main__':
     print(f'BLEU Score Attention Model: {bleu_score}')
     print()
 
-    bleu_score = corpus_bleu(test_data, predictions_baseline, weights=(0.25, 0.25, 0.25, 0.25))
+    bleu_score_baseline = corpus_bleu(test_data, predictions_baseline, weights=(0.25, 0.25, 0.25, 0.25))
 
     print()
-    print(f'BLEU Score Baseline Model: {bleu_score}')
+    print(f'BLEU Score Baseline Model: {bleu_score_baseline}')
     print()
 
     # Calculate the mean METEOR score
@@ -97,12 +97,12 @@ if __name__ == '__main__':
         meteor_scores.append(current_meteor_score)
     meteor_avg_score = sum(meteor_scores) / len(meteor_scores)
 
-    meteor_scores = []
+    meteor_scores_baseline = []
 
     for reference, hypothesis in zip(test_data, predictions_baseline):
         current_meteor_score = meteor_score(reference, hypothesis)
-        meteor_scores.append(current_meteor_score)
-    meteor_avg_score_baseline = sum(meteor_scores) / len(meteor_scores)
+        meteor_scores_baseline.append(current_meteor_score)
+    meteor_avg_score_baseline = sum(meteor_scores_baseline) / len(meteor_scores_baseline)
 
     print()
     print(f'METEOR Score Attention Model:  {meteor_avg_score}')

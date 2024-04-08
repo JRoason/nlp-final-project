@@ -1,6 +1,7 @@
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow.data as tfdata
+from sklearn.model_selection import train_test_split
 
 
 # The following code is based on the following tutorial:
@@ -45,3 +46,26 @@ def make_dataset(pairs, tokenizer_en, tokenizer_it, MAX_LEN=200, BATCH_SIZE=128)
     dataset = dataset.batch(BATCH_SIZE)
     dataset = dataset.map(format_dataset)
     return dataset.cache().shuffle(1024).prefetch(buffer_size=tfdata.AUTOTUNE)
+
+
+if __name__ == '__main__':
+
+    # Load English-Italian Europarl dataset
+    with open('europarl-v7-it.txt') as italian_file, open('europarl-v7-en.txt') as english_file:
+        italian_sentences = italian_file.readlines()
+        english_sentences = english_file.readlines()
+
+    X_en_train, X_en_test, X_it_train, X_it_test = train_test_split(english_sentences, italian_sentences, test_size=0.2)
+
+    with open('data/europarl-v7-it-train.txt', 'w') as italian_file:
+        italian_file.writelines(X_it_train)
+
+    with open('data/europarl-v7-en-train.txt', 'w') as english_file:
+        english_file.writelines(X_en_train)
+
+    with open('data/europarl-v7-it-test.txt', 'w') as italian_file:
+        italian_file.writelines(X_it_test)
+
+    with open('data/europarl-v7-en-test.txt', 'w') as english_file:
+        english_file.writelines(X_en_test)
+
