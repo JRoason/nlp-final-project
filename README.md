@@ -88,3 +88,5 @@ python evaluation.py
 ```
 
 The output will be printed to the console.
+
+Note that the files 'predictions.txt' and 'baseline_predictions.txt' are present in the repository, so the evaluation script can be run without training the models.
